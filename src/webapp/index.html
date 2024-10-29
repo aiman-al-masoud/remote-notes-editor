@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Remote Note Editor</title>
+    <style type="text/css" media="screen">
+        #editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="editor">ciao mondo!</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.3/ace.js" type="text/javascript"
+        charset="utf-8"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/plaintext");
+
+        editor.commands.addCommand({
+            name: 'save',
+            bindKey: { win: "Ctrl-S", "mac": "Cmd-S" },
+            exec: function (editor) {
+
+                fetch('http://127.0.0.1:5000/set-text', {
+                    body: JSON.stringify({
+                        text: editor.session.getValue()
+                    }),
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                })
+            }
+        })
+
+        fetch('http://127.0.0.1:5000/get-text').then(e => e.text()).then(text => {
+            editor.session.setValue(text)
+        })
+
+    </script>
+</body>
+
+</html>
