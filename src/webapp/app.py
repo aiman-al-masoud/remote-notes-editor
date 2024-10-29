@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 FILE = ''
@@ -7,7 +7,7 @@ TEXT = ''
 
 @app.route('/', methods=['GET'])
 def index():
-    return open('src/webapp/index.html').read()
+    return render_template('index.html')
 
 @app.route('/get-text', methods=['GET', 'POST'])
 def get_text():
