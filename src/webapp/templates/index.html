@@ -30,7 +30,7 @@
             bindKey: { win: "Ctrl-S", "mac": "Cmd-S" },
             exec: function (editor) {
 
-                fetch('http://127.0.0.1:5000/set-text', {
+                fetch('/set-text', {
                     body: JSON.stringify({
                         text: editor.session.getValue()
                     }),
@@ -43,7 +43,7 @@
             }
         })
 
-        fetch('http://127.0.0.1:5000/get-text').then(e => e.text()).then(text => {
+        fetch('/get-text').then(e => e.text()).then(text => {
             editor.session.setValue(text)
         })
 
